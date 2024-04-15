@@ -1,0 +1,332 @@
+{
+  "tracks": [
+    {
+      "artist": "Radiohead",
+      "album": "I Might Be Wrong",
+      "track": "True Love Waits - Live in Oslo",
+      "uri": "spotify:track:62SvkbQm1wMS6KZtbtls1V"
+    },
+    {
+      "artist": "Leiva",
+      "album": "Stranger Things",
+      "track": "Stranger Things",
+      "uri": "spotify:track:0cT58NmhKlRz9jesc5Xzzx"
+    },
+    {
+      "artist": "Morgan",
+      "album": "Air",
+      "track": "Another Road (Gettin' Ready)",
+      "uri": "spotify:track:2lAnHi58vV559jwHFv9PmV"
+    },
+    {
+      "artist": "The Jayhawks",
+      "album": "Back Roads And Abandoned Motels",
+      "track": "Everybody Knows",
+      "uri": "spotify:track:76OxzlVDRWey0uq8XiM2hV"
+    },
+    {
+      "artist": "Morgan",
+      "album": "Air",
+      "track": "Sargento de Hierro",
+      "uri": "spotify:track:1pv5scBTTQyqN2NOiEj8oe"
+    },
+    {
+      "artist": "Jason Isbell",
+      "album": "Something More Than Free",
+      "track": "How to Forget",
+      "uri": "spotify:track:52fMo242CPkuXj35SpdS0o"
+    }
+  ],
+  "albums": [
+    {
+      "artist": "SQUARE ENIX MUSIC",
+      "album": "FINAL FANTASY VII REMAKE Original Soundtrack",
+      "uri": "spotify:album:2ufkFJsK2Hh2ZdmgrRmCv3"
+    },
+    {
+      "artist": "John Mayer",
+      "album": "Where the Light Is: John Mayer Live In Los Angeles",
+      "uri": "spotify:album:4Dgxy95K9BWkDUvQPTaYBb"
+    },
+    {
+      "artist": "The War On Drugs",
+      "album": "Lost In The Dream",
+      "uri": "spotify:album:51VxHZphGLsI7aUPqIkJaz"
+    },
+    {
+      "artist": "Desert Sessions",
+      "album": "Desert Session 9&10/Desert Sessions",
+      "uri": "spotify:album:44iPclG99l2iF2sAKD3veM"
+    },
+    {
+      "artist": "Airbag",
+      "album": "Identity (2020 Remaster)",
+      "uri": "spotify:album:1tDQII1Y9N9h3W2yfsStc5"
+    },
+    {
+      "artist": "Revolver",
+      "album": "El Dorado",
+      "uri": "spotify:album:6syFFUUbyxrkn1rBARXbpT"
+    },
+    {
+      "artist": "Luis Alberto Spinetta",
+      "album": "Estrelicia - MTV Unplugged",
+      "uri": "spotify:album:5huX456TryNGDRXsuR13uY"
+    },
+    {
+      "artist": "Revolver",
+      "album": "8:30 am",
+      "uri": "spotify:album:34to2ZO3m4TYa2dKjrZEEc"
+    },
+    {
+      "artist": "Traffic",
+      "album": "John Barleycorn Must Die",
+      "uri": "spotify:album:2TjodugH6rA5ZHPsWVErmw"
+    },
+    {
+      "artist": "Bruce Springsteen",
+      "album": "Thunder Road",
+      "uri": "spotify:album:3oi9yHjFt6CF1Pi7IyRV31"
+    },
+    {
+      "artist": "Twenty One Pilots",
+      "album": "Blurryface",
+      "uri": "spotify:album:3cQO7jp5S9qLBoIVtbkSM1"
+    },
+    {
+      "artist": "Víctor Reyes",
+      "album": "Love Gets a Room (Original Motion Picture Soundtrack)",
+      "uri": "spotify:album:0O4dnagYTDnQbZvVG8yRcR"
+    },
+    {
+      "artist": "Johnny Cash",
+      "album": "American III: Solitary Man",
+      "uri": "spotify:album:2zCyI9fuV5JrQzrO3kMwbw"
+    },
+    {
+      "artist": "Los Piratas",
+      "album": "Ultrasónica",
+      "uri": "spotify:album:0YfgHaj6rcEzXIIVDj42ev"
+    },
+    {
+      "artist": "Neutral Milk Hotel",
+      "album": "In the Aeroplane Over the Sea",
+      "uri": "spotify:album:0vVekV45lOaVKs6RZQQNob"
+    },
+    {
+      "artist": "Love",
+      "album": "Forever Changes",
+      "uri": "spotify:album:2amHBpP8C0EUy6yBNy6nN6"
+    },
+    {
+      "artist": "Johannes Bornlöf",
+      "album": "As The Years Go By",
+      "uri": "spotify:album:5aeUh8jEe9W9IUQJU0Q3Bd"
+    },
+    {
+      "artist": "The Alan Parsons Project",
+      "album": "Tales Of Mystery And Imagination - Edgar Allan Poe",
+      "uri": "spotify:album:1Z4oBiD0q8rTwWIYrDwsys"
+    },
+    {
+      "artist": "Porcupine Tree",
+      "album": "Deadwing",
+      "uri": "spotify:album:2oQE67Gnc1GoMqoumvjPwN"
+    },
+    {
+      "artist": "Guns N' Roses",
+      "album": "Appetite For Destruction",
+      "uri": "spotify:album:3I9Z1nDCL4E0cP62flcbI5"
+    },
+    {
+      "artist": "Morgan",
+      "album": "Home (Live At Circo Price)",
+      "uri": "spotify:album:1tw7FYMENRlbzRcqiq9brW"
+    },
+    {
+      "artist": "Kutxi Romero",
+      "album": "No soy de nadie",
+      "uri": "spotify:album:6I6MFweAhJ60fMouW4ZGw5"
+    },
+    {
+      "artist": "Duncan Dhu",
+      "album": "Crepusculo",
+      "uri": "spotify:album:59s0EapEw7dulEal1FRYFH"
+    },
+    {
+      "artist": "The Cranberries",
+      "album": "Everybody Else Is Doing It, So Why Can't We?",
+      "uri": "spotify:album:0AP5O47kJWlaKVnnybKvQI"
+    },
+    {
+      "artist": "Pescado Rabioso",
+      "album": "Artaud",
+      "uri": "spotify:album:5MJR9j21vjEi4ODxzhvoTA"
+    },
+    {
+      "artist": "R.E.M.",
+      "album": "Automatic For The People",
+      "uri": "spotify:album:0BiNb8HYR4JvuxUa31Z58Q"
+    },
+    {
+      "artist": "Mikel Erentxun",
+      "album": "Amigos de Guardia",
+      "uri": "spotify:album:3NdU6BRIm44g194MrjBGGh"
+    },
+    {
+      "artist": "Daft Punk",
+      "album": "Random Access Memories",
+      "uri": "spotify:album:4m2880jivSbbyEGAKfITCa"
+    },
+    {
+      "artist": "Nick Drake",
+      "album": "Pink Moon",
+      "uri": "spotify:album:5mwOo1zikswhmfHvtqVSXg"
+    },
+    {
+      "artist": "Morgan",
+      "album": "North",
+      "uri": "spotify:album:0lsFotbMbSRKto6N1QN5nI"
+    },
+    {
+      "artist": "_juno",
+      "album": "_BCN626",
+      "uri": "spotify:album:6IPGEB4W7g8u88NWZgVLEA"
+    },
+    {
+      "artist": "Steven Wilson",
+      "album": "The Raven That Refused to Sing (and Other Stories)",
+      "uri": "spotify:album:2xJFvV7JzoYYMere5rqjVf"
+    },
+    {
+      "artist": "Nobuo Uematsu",
+      "album": "Distant Worlds II: More Music from Final Fantasy",
+      "uri": "spotify:album:1WUnKluVNj06DrGDAlsQyr"
+    }
+  ],
+  "shows": [
+    {
+      "name": "Deforme Semanal Ideal Total",
+      "publisher": "Deforme Semanal",
+      "uri": "spotify:show:0TCJ4VZKU6YFJjxpl0oHNN"
+    },
+    {
+      "name": "Essentia Libris",
+      "publisher": "Essentia Libris",
+      "uri": "spotify:show:73Jm1l3TcNqkCWsdFMSAbh"
+    },
+    {
+      "name": "Filosofía de bolsillo",
+      "publisher": "Diego Civilotti",
+      "uri": "spotify:show:768GVwxeh1o6kD5bD0qJeJ"
+    },
+    {
+      "name": "Grandes Infelices",
+      "publisher": "Blackie Books",
+      "uri": "spotify:show:3OqQvVfyrAvbz5nbEPgObq"
+    },
+    {
+      "name": "Psicologia Al Desnudo | @psi.mammoliti",
+      "publisher": "Psi Mammoliti",
+      "uri": "spotify:show:1TDJJoHWEq7Nbh3yEBOJOj"
+    }
+  ],
+  "episodes": [
+  ],
+  "bannedTracks": [
+  ],
+  "artists": [
+    {
+      "name": "Bocanada",
+      "uri": "spotify:artist:5F9G1c2RLzqkAdwJvEUNxZ"
+    },
+    {
+      "name": "Bruce Springsteen",
+      "uri": "spotify:artist:3eqjTLE0HfPfh78zjh6TqT"
+    },
+    {
+      "name": "Cobardes",
+      "uri": "spotify:artist:7usM11Lt7z2GTOHsoyx3BL"
+    },
+    {
+      "name": "David Bowie",
+      "uri": "spotify:artist:0oSGxfWSnnOXhD2fKuz2Gy"
+    },
+    {
+      "name": "Exceso",
+      "uri": "spotify:artist:1sfJ1IyMNdbvpe8WzuqQ3g"
+    },
+    {
+      "name": "Fiona Apple",
+      "uri": "spotify:artist:3g2kUQ6tHLLbmkV7T4GPtL"
+    },
+    {
+      "name": "Fito y Fitipaldis",
+      "uri": "spotify:artist:1tZ99AnqyjgrmPwLfGU5eo"
+    },
+    {
+      "name": "Jason Isbell and the 400 Unit",
+      "uri": "spotify:artist:3Lg3FGwBxOGuefqekQzRUf"
+    },
+    {
+      "name": "Larkin Poe",
+      "uri": "spotify:artist:7d10VF1J4LqW7vrpPOngzm"
+    },
+    {
+      "name": "Ludovico Einaudi",
+      "uri": "spotify:artist:2uFUBdaVGtyMqckSeCl0Qj"
+    },
+    {
+      "name": "Morgan",
+      "uri": "spotify:artist:5KtT4N5jkrPVRAIcJ8GmnV"
+    },
+    {
+      "name": "Muse",
+      "uri": "spotify:artist:12Chz98pHFMPJEknJQMWvI"
+    },
+    {
+      "name": "Mägo de Oz",
+      "uri": "spotify:artist:5ZNxiPcbKgaNcBrERMpqeu"
+    },
+    {
+      "name": "Pink Floyd",
+      "uri": "spotify:artist:0k17h0D3J5VfsdmQ1iZtE9"
+    },
+    {
+      "name": "Robe",
+      "uri": "spotify:artist:3WQRkINylwwkw1Ya07ToRK"
+    },
+    {
+      "name": "Silencio Absoluto",
+      "uri": "spotify:artist:5VaZkkL06t8ziwLLlAp6xu"
+    },
+    {
+      "name": "Spirit",
+      "uri": "spotify:artist:5q9nLsvWwbSUW1kRyhZLAx"
+    },
+    {
+      "name": "Suu",
+      "uri": "spotify:artist:7He3EH9c66ZwBtIMHGdyIA"
+    },
+    {
+      "name": "The Son of Wood",
+      "uri": "spotify:artist:19FBTkMNRv8TA2DMkjJVJB"
+    },
+    {
+      "name": "The Staves",
+      "uri": "spotify:artist:5G49Sq5mMzAkGL4ZP6eVPY"
+    },
+    {
+      "name": "The White Buffalo",
+      "uri": "spotify:artist:3ohcHMuUq1717s8AH17hfT"
+    },
+    {
+      "name": "Zahara",
+      "uri": "spotify:artist:7uLePkJ2f0MwEcphODfkuu"
+    }
+  ],
+  "bannedArtists": [
+  ],
+  "other": [
+  ]
+}
