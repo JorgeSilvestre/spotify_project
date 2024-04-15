@@ -2,6 +2,7 @@ import streamlit as st
 import plotly.express as px
 import pandas as pd
 import requests
+from collections import Counter
 
 @st.cache_data
 def get_access_token(client_id, client_secret):
@@ -61,11 +62,14 @@ access_token = None
 # Sidebar
 with st.sidebar:
     with st.form(key='credentials'):
+        st.markdown('Introduce tus credenciales de la API de Spotify para poder ejecutar consultas')
         client_id_input = st.text_input(label='Client ID', key='client_id', type='password')
         client_secret_input = st.text_input(label='Client Secret', key='client_secret', type='password')
         st.form_submit_button(label='Enviar')
-    
-    file_uploader = st.file_uploader(label='Historial de reproducciones', type='json', key='history_file')
+    with st.container(border=1):
+        st.markdown('Sube tu historial de reproducciones')
+        file_uploader = st.file_uploader(label='Historial de reproducciones', type='json', key='history_file', 
+                                        help='El fichero debería llamarse StreamingHistory_music_0.json')
 
 client_id = client_id_input
 client_secret = client_secret_input
@@ -96,19 +100,20 @@ if client_id and client_secret:
             st.markdown('## Top 10 artistas (veces reproducido)')
             top_artists = data.groupby(['artistName']).count().sort_values('msPlayed', ascending=False).head(10).reset_index()
             columns = st.columns(2)
-            for idx, row in top_artists.iterrows():    
-                with columns[idx//5]:
-                    art = search_artist(row.artistName)
-                    with st.container():
-                        cols = st.columns([0.4,1])
-                        try:
-                            cols[0].image(art["images"][0]["url"])
-                        except IndexError:
-                            pass 
-                        except KeyError: 
-                            pass
-                        cols[1].markdown(f'### {idx+1}. {art["name"]}')
-                        cols[1].markdown(f"{row.trackName} veces reproducido")
+            with st.spinner():
+                for idx, row in top_artists.iterrows():    
+                    with columns[idx//5]:
+                        art = search_artist(row.artistName)
+                        with st.container():
+                            cols = st.columns([0.4,1])
+                            try:
+                                cols[0].image(art["images"][0]["url"])
+                            except IndexError:
+                                pass 
+                            except KeyError: 
+                                pass
+                            cols[1].markdown(f'### {idx+1}. {art["name"]}')
+                            cols[1].markdown(f"{row.trackName} veces reproducido")
             
             st.markdown('---')
             st.markdown('## Top 10 artistas (tiempo de reproducción)')
@@ -128,7 +133,15 @@ if client_id and client_secret:
                         cols[1].markdown(f'### {idx+1}. {art["name"]}')
                         cols[1].markdown(f"{row.msPlayed/60000:.0f} minutos de escucha")
 
-            
+            st.markdown('---')
+            st.markdown('## Géneros preferidos')
+            st.markdown('De acuerdo a tus artistas preferidos, los géneros que más escuchas son:')
+            generos = []
+            for idx, row in top_artists.iterrows():
+                art = search_artist(row.artistName)
+                generos.extend(art['genres'])
+            for k, v in Counter(generos).most_common(5):
+                st.markdown(f'- {k} ({v})')
 
             st.markdown('# Estadísticas de uso (canciones)')
 
