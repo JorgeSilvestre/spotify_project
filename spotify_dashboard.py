@@ -5,53 +5,82 @@ import requests
 from collections import Counter
 
 @st.cache_data
-def get_access_token(client_id, client_secret):
-    # Get access token
+def get_access_token(client_id: str, client_secret: str) -> str|None:
+    """ Obtiene el token de acceso a partir del ID de cliente y su clave secreta
+        para obtener acceso a la funcionalidad "no de usuario" de Spotify
+    
+    Argumentos:
+        client_id: String con el ID de cliente
+        client_secret: String con el secreto de cliente
+    Devuelve:
+        String con el token de acceso, o None si el servidor no lo proporciona
+    """
+
+    # Endpoint: https://accounts.spotify.com/api/token
     response = requests.post(url='https://accounts.spotify.com/api/token', 
-                            headers={'Content-Type':'application/x-www-form-urlencoded'},
-                            data=dict(grant_type='client_credentials', 
-                                      client_id=client_id, 
-                                      client_secret=client_secret))
+                             headers={'Content-Type':'application/x-www-form-urlencoded'},
+                             data=dict(grant_type='client_credentials', 
+                                       client_id=client_id, 
+                                       client_secret=client_secret))
     access_token = response.json().get('access_token', None)
     
     return access_token
 
-def load_history_file(file):
+def load_history_file(file) -> pd.DataFrame:
+    """ Carga y preprocesa el JSON de historial de reproducciones de Spotify
+    
+    Argumentos:
+        file: Fichero o ruta del fichero JSON que contiene los datos
+    Devuelve:
+        Dataframe con los datos preprocesados
+    """
+    print(type(file))
+    print(file)
+    # Carga del fichero en un dataframe
     rep_data = pd.read_json(file)
-    min_duracion = rep_data[rep_data.duplicated(subset=['endTime', 'artistName', 'trackName'], keep=False)]\
-                    .groupby(['artistName', 'trackName', 'endTime']).idxmin()
+    # Se eliminan registros duplicados: canciones que figuran dos veces, terminando a la vez,
+    # pero con duraciones de reproducción diferentes.
+    # Identificamos todos los registros duplicados
+    min_duracion = rep_data[rep_data.duplicated(subset=['endTime', 'artistName', 'trackName'], keep=False)]
+    # Para cada duplicado, obtenemos el índice del de menor duración
+    min_duracion = min_duracion.groupby(['artistName', 'trackName', 'endTime']).idxmin()
+    # Descartamos los registros cuyo índice es uno de los registros en min_duracion
     rep_data = rep_data[~rep_data.msPlayed.isin(min_duracion.msPlayed)]
     rep_data = rep_data.reset_index(drop=True)
 
-    rep_data['play_date'] = pd.to_datetime(rep_data.endTime, format='ISO8601').values
+    # Agregamos una columna con la fecha de reproducción
+    rep_data['playDate'] = pd.to_datetime(rep_data.endTime, format='ISO8601').values
+    # Agregamos una columna con el tiempo de reproducción, en minutos
     rep_data['minPlayed'] = rep_data.msPlayed//60000
 
     return rep_data
 
 @st.cache_data
-def search_artist(artista: str):
-    # Ojo, devuelve varios resultados. Seleccionamos siempre el primero por simplificar
-    params = dict(q=f'artist:{artista}', 
+def search_artist(artist_name: str) -> dict:
+    """ Obtiene el ID de un artista a partir de su nombre
+
+    Como el endpoint de búsqueda devuelve una lista de resultados relevantes,
+    es necesario revisar los resultados para seleccionar el artista adecuado
+    
+    Argumentos:
+        artist_name: Nombre del artista
+    Devuelve:
+        Diccionario con la respuesta en JSON del servidor
+    """
+    params = dict(q=f'artist:{artist_name}', 
                   type=['artist'],
                   market='ES',
                   limit=50)
     response = requests.get(url='https://api.spotify.com/v1/search', 
                             headers=header, 
                             params=params)
-    # st.write(response.json())
+    # Recorremos la lista de artistas devueltos por la API
     for art in response.json()['artists']['items']:
-        if art['name'] == artista:
+        # Su nombre debe coincidir con el recibido como parámetro
+        if art['name'] == artist_name:
             return art
-    else:
+    else: # Si no se encuentra, se devuelve un diccionario vacío
         return {}
-
-    try:
-        return response.json()['artists']['items'][0]
-    except IndexError:
-        return {}
-    except KeyError:
-        return {}
-
 
 client_id = None
 client_secret = None
@@ -83,7 +112,7 @@ if client_id and client_secret:
             data = load_history_file(file_uploader)
 
             # Metrics
-            st.metric(label='Período', value=f"{data.play_date.min().date()} > {data.play_date.max().date()}")
+            st.metric(label='Período', value=f"{data.playDate.min().date()} > {data.playDate.max().date()}")
             cols = st.columns([1,1,1,2])
             cols[0].metric(label='Canciones escuchadas', value=data.drop_duplicates(subset=['trackName', 'artistName']).shape[0])
             cols[1].metric(label='Artistas escuchados',  value=data.drop_duplicates(subset=['artistName']).shape[0])
@@ -117,7 +146,7 @@ if client_id and client_secret:
             
             st.markdown('---')
             st.markdown('## Por tiempo de reproducción')
-            top_artists = data.drop('play_date', axis=1).groupby(['artistName']).sum().sort_values('msPlayed', ascending=False).head(10).reset_index()
+            top_artists = data.drop('playDate', axis=1).groupby(['artistName']).sum().sort_values('msPlayed', ascending=False).head(10).reset_index()
             columns = st.columns(2)
             for idx, row in top_artists.iterrows():      
                 with columns[idx//5]:          
@@ -135,7 +164,7 @@ if client_id and client_secret:
 
             st.markdown('---')
             st.markdown('## Por canciones diferentes escuchadas')
-            top_artists = data.drop('play_date', axis=1).drop_duplicates(subset=['trackName','artistName'])\
+            top_artists = data.drop('playDate', axis=1).drop_duplicates(subset=['trackName','artistName'])\
                               .groupby(['artistName']).count().sort_values('msPlayed', ascending=False).head(10).reset_index()
             columns = st.columns(2)
             for idx, row in top_artists.iterrows():      
@@ -164,14 +193,14 @@ if client_id and client_secret:
 
             st.markdown('# Estadísticas de uso (canciones)')
 
-            graph = px.histogram(data, x='play_date')
+            graph = px.histogram(data, x='playDate')
             graph.update_traces(xbins_size=48*3600*1000)
             # graph.update_xaxes(showgrid=True, ticklabelmode="period", dtick="M1", tickformat="%b %Y")
             st.plotly_chart(graph)
 
             st.markdown('# Estadísticas de uso (tiempo)')
             
-            graph = px.histogram(data, x='play_date', y='minPlayed')
+            graph = px.histogram(data, x='playDate', y='minPlayed')
             graph.update_traces(xbins_size=48*3600*1000)
             # graph.update_xaxes(showgrid=True, ticklabelmode="period", dtick="D1", tickformat="%b %Y")
             st.plotly_chart(graph)
