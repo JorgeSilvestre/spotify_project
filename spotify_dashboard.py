@@ -81,7 +81,7 @@ def search_artist(artist_name: str) -> dict:
             return art
     else: # Si no se encuentra, se devuelve un diccionario vacío
         return {}
-
+    
 client_id = None
 client_secret = None
 access_token = None
@@ -117,21 +117,42 @@ if client_id and client_secret:
             cols[0].metric(label='Canciones escuchadas', value=data.drop_duplicates(subset=['trackName', 'artistName']).shape[0])
             cols[1].metric(label='Artistas escuchados',  value=data.drop_duplicates(subset=['artistName']).shape[0])
             cols[2].metric(label='Horas escuchadas',  value=f'{data.minPlayed.sum()/60:.1f}h')
-            st.markdown('# Canciones')
 
-            st.markdown('## Top 10 canciones')
-            top_songs = data.groupby(['artistName','trackName']).count().sort_values('msPlayed', ascending=True).tail(10).reset_index()
-            top_songs['nombre_completo'] = top_songs['trackName'] + ' - ' + top_songs['artistName']
-            st.plotly_chart(px.bar(top_songs, y='nombre_completo', x='msPlayed', orientation='h'))
+            with st.container(): # Canciones
+                st.markdown('# Canciones')
 
-            st.markdown('# Top 10 Artistas')
+                st.markdown('## Top 10 canciones')
+                top_songs = data.groupby(['artistName','trackName']).count().sort_values('msPlayed', ascending=True).tail(10).reset_index()
+                top_songs['nombre_completo'] = top_songs['trackName'] + ' - ' + top_songs['artistName']
+                st.plotly_chart(px.bar(top_songs, y='nombre_completo', x='msPlayed', orientation='h'))
+            
+            with st.container(): # Artistas
+                st.markdown('# Top 10 Artistas')
 
-            st.markdown('## Por veces reproducido')
-            top_artists = data.groupby(['artistName']).count().sort_values('msPlayed', ascending=False).head(10).reset_index()
-            columns = st.columns(2)
-            with st.spinner():
-                for idx, row in top_artists.iterrows():    
-                    with columns[idx//5]:
+                st.markdown('## Por veces reproducido')
+                top_artists = data.groupby(['artistName']).count().sort_values('msPlayed', ascending=False).head(10).reset_index()
+                columns = st.columns(2)
+                with st.spinner():
+                    for idx, row in top_artists.iterrows():    
+                        with columns[idx//5]:
+                            art = search_artist(row.artistName)
+                            with st.container():
+                                cols = st.columns([0.4,1])
+                                try:
+                                    cols[0].image(art["images"][0]["url"])
+                                except IndexError:
+                                    pass 
+                                except KeyError: 
+                                    pass
+                                cols[1].markdown(f'#### {idx+1}. {art["name"]}')
+                                cols[1].markdown(f"{row.trackName} veces reproducido")
+                
+                st.markdown('---')
+                st.markdown('## Por tiempo de reproducción')
+                top_artists = data.drop('playDate', axis=1).groupby(['artistName']).sum().sort_values('msPlayed', ascending=False).head(10).reset_index()
+                columns = st.columns(2)
+                for idx, row in top_artists.iterrows():      
+                    with columns[idx//5]:          
                         art = search_artist(row.artistName)
                         with st.container():
                             cols = st.columns([0.4,1])
@@ -142,68 +163,54 @@ if client_id and client_secret:
                             except KeyError: 
                                 pass
                             cols[1].markdown(f'#### {idx+1}. {art["name"]}')
-                            cols[1].markdown(f"{row.trackName} veces reproducido")
-            
-            st.markdown('---')
-            st.markdown('## Por tiempo de reproducción')
-            top_artists = data.drop('playDate', axis=1).groupby(['artistName']).sum().sort_values('msPlayed', ascending=False).head(10).reset_index()
-            columns = st.columns(2)
-            for idx, row in top_artists.iterrows():      
-                with columns[idx//5]:          
+                            cols[1].markdown(f"{row.msPlayed/60000:.0f} minutos de escucha")
+
+                st.markdown('---')
+                st.markdown('## Por canciones diferentes escuchadas')
+                top_artists = data.drop('playDate', axis=1).drop_duplicates(subset=['trackName','artistName'])\
+                                .groupby(['artistName']).count().sort_values('msPlayed', ascending=False).head(10).reset_index()
+                columns = st.columns(2)
+                for idx, row in top_artists.iterrows():      
+                    with columns[idx//5]:          
+                        art = search_artist(row.artistName)
+                        with st.container():
+                            cols = st.columns([0.4,1])
+                            try:
+                                cols[0].image(art["images"][0]["url"])
+                            except IndexError:
+                                pass 
+                            except KeyError: 
+                                pass
+                            cols[1].markdown(f'#### {idx+1}. {art["name"]}')
+                            cols[1].markdown(f"{row.msPlayed:.0f} canciones distintas")
+
+                st.markdown('---')
+                st.markdown('## Géneros preferidos')
+                st.markdown('De acuerdo a tus artistas preferidos, los géneros que más escuchas son:')
+                generos = []
+                for idx, row in top_artists.iterrows():
                     art = search_artist(row.artistName)
-                    with st.container():
-                        cols = st.columns([0.4,1])
-                        try:
-                            cols[0].image(art["images"][0]["url"])
-                        except IndexError:
-                            pass 
-                        except KeyError: 
-                            pass
-                        cols[1].markdown(f'#### {idx+1}. {art["name"]}')
-                        cols[1].markdown(f"{row.msPlayed/60000:.0f} minutos de escucha")
+                    generos.extend(art['genres'])
+                for k, v in Counter(generos).most_common(5):
+                    st.markdown(f'- {k} ({v})')
 
-            st.markdown('---')
-            st.markdown('## Por canciones diferentes escuchadas')
-            top_artists = data.drop('playDate', axis=1).drop_duplicates(subset=['trackName','artistName'])\
-                              .groupby(['artistName']).count().sort_values('msPlayed', ascending=False).head(10).reset_index()
-            columns = st.columns(2)
-            for idx, row in top_artists.iterrows():      
-                with columns[idx//5]:          
-                    art = search_artist(row.artistName)
-                    with st.container():
-                        cols = st.columns([0.4,1])
-                        try:
-                            cols[0].image(art["images"][0]["url"])
-                        except IndexError:
-                            pass 
-                        except KeyError: 
-                            pass
-                        cols[1].markdown(f'#### {idx+1}. {art["name"]}')
-                        cols[1].markdown(f"{row.msPlayed:.0f} canciones distintas")
-
-            st.markdown('---')
-            st.markdown('## Géneros preferidos')
-            st.markdown('De acuerdo a tus artistas preferidos, los géneros que más escuchas son:')
-            generos = []
-            for idx, row in top_artists.iterrows():
-                art = search_artist(row.artistName)
-                generos.extend(art['genres'])
-            for k, v in Counter(generos).most_common(5):
-                st.markdown(f'- {k} ({v})')
-
-            st.markdown('# Estadísticas de uso (canciones)')
-
-            graph = px.histogram(data, x='playDate')
-            graph.update_traces(xbins_size=48*3600*1000)
-            # graph.update_xaxes(showgrid=True, ticklabelmode="period", dtick="M1", tickformat="%b %Y")
-            st.plotly_chart(graph)
-
-            st.markdown('# Estadísticas de uso (tiempo)')
+            # with st.container(): # Albums
+            #     pass
             
-            graph = px.histogram(data, x='playDate', y='minPlayed')
-            graph.update_traces(xbins_size=48*3600*1000)
-            # graph.update_xaxes(showgrid=True, ticklabelmode="period", dtick="D1", tickformat="%b %Y")
-            st.plotly_chart(graph)
+            with st.container(): # Estadísticas de uso
+                st.markdown('# Estadísticas de uso (canciones)')
+
+                graph = px.histogram(data, x='playDate')
+                graph.update_traces(xbins_size=48*3600*1000)
+                # graph.update_xaxes(showgrid=True, ticklabelmode="period", dtick="M1", tickformat="%b %Y")
+                st.plotly_chart(graph)
+
+                st.markdown('# Estadísticas de uso (tiempo)')
+                
+                graph = px.histogram(data, x='playDate', y='minPlayed')
+                graph.update_traces(xbins_size=48*3600*1000)
+                # graph.update_xaxes(showgrid=True, ticklabelmode="period", dtick="D1", tickformat="%b %Y")
+                st.plotly_chart(graph)
 
         else:
             st.info('Sube el fichero de historial.', icon="ℹ️")
