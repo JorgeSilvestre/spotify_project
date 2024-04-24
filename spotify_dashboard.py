@@ -74,12 +74,15 @@ def search_artist(artist_name: str) -> dict:
     response = requests.get(url='https://api.spotify.com/v1/search', 
                             headers=header, 
                             params=params)
-    # Recorremos la lista de artistas devueltos por la API
-    for art in response.json()['artists']['items']:
-        # Su nombre debe coincidir con el recibido como parámetro
-        if art['name'] == artist_name:
-            return art
-    else: # Si no se encuentra, se devuelve un diccionario vacío
+    if 'artists' in response.json():
+        # Recorremos la lista de artistas devueltos por la API
+        for art in response.json()['artists']['items']:
+            # Su nombre debe coincidir con el recibido como parámetro
+            if art['name'] == artist_name:
+                return art
+        else: # Si no se encuentra, se devuelve un diccionario vacío
+            return {}
+    else:
         return {}
     
 client_id = None
